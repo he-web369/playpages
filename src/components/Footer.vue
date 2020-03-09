@@ -47,7 +47,7 @@
               </div>
           </div>
       </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -57,18 +57,26 @@ export default {
 </script>
 
 <style scoped lang="less">
+@media screen and (min-height:660px){
+    #wrapper{
+        position: absolute;
+        bottom: 0;
+    }
+}
     #wrapper{
         box-shadow: 0 -10px 6px 0 rgba(0, 0, 0, 0.08);
-        margin-top:100px;
+        width: 100%;
+        min-width: 1200px;
+        margin-top: 100px;
         .bottom-box{
-            width: 60%;
-            margin: 0 auto;
+            width: 800px;
+            margin: 20px auto;
             display: flex;
             flex-direction: row;
             justify-content: space-evenly;
             padding: 10px;
             .right{
-                margin:20px 0 0 20px;
+                margin: 20px 0 0 0;
                 height: 40px;
                 display: flex;
                 font-size: 12px;

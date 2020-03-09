@@ -1,5 +1,5 @@
 <template>
-  <div  class="wrapper">
+  <div  class="wrapper" >
     <transition name="playIn">
       <div class="play-wrapper" v-if="isPlay">
         <div class="left-hand" ref="leftHand" >
@@ -15,36 +15,44 @@
               <i class="el-icon-back" @click.stop="isPlay=false" slot="playI"></i>
             </VideoPlayer>
             <div class="danmuBox">
-              <el-switch v-model="openDanmu"></el-switch>
-              <span class="title">{{openDanmu?'关闭弹幕':'开启弹幕'}}</span>
-              <span class="title">选择颜色</span> 
-              <el-color-picker v-model="color" size="mini"></el-color-picker>
-              <span class="title">字体大小</span> 
-              <el-input-number style="width:80px"
-              v-model="fontSize"  
-              :min="16" 
-              :max="40" 
-              size="mini" 
-              controls-position="right"></el-input-number>
-              <el-input
-                type="text"
-                placeholder="请输入内容"
-                v-model="danmuText"
-                maxlength="30"
-                show-word-limit
-                clearable
-                size="small"
-                style="width:320px"
-                @change="addDanmu"
-              />
-              <el-button size="small" @click="addDanmu" >发送</el-button>
+              <div class="littleBox">
+                <el-switch v-model="openDanmu"></el-switch>
+                <span class="title">{{openDanmu?'关闭弹幕':'开启弹幕'}}</span>
+              </div>
+              <div class="littleBox">
+                <span class="title">选择颜色</span> 
+                <el-color-picker v-model="color" size="mini"></el-color-picker>
+              </div>
+              <div class="littleBox">
+                <span class="title">字体大小</span> 
+                <el-input-number style="width:80px"
+                v-model="fontSize"  
+                :min="16" 
+                :max="40" 
+                size="mini" 
+                controls-position="right"></el-input-number>
+              </div>
+              <div class="littleBox"> 
+                <el-input
+                  type="text"
+                  placeholder="请输入内容"
+                  v-model="danmuText"
+                  maxlength="30"
+                  show-word-limit
+                  clearable
+                  size="small"
+                  style="width:320px"
+                  @change="addDanmu"
+                />
+                <el-button size="small" @click="addDanmu" >发送</el-button>
+              </div>
             </div>
         </div>
         <div class="right-hand" ref="rightHand" >
           <canvas ref="rightCan"></canvas>
         </div>
       </div>
-      <el-carousel :interval="4000" type="card" v-if="!isPlay" height="370px">
+      <el-carousel :interval="4000" type="card" v-show="!isPlay" :height="`${cHeight}px`">
             <el-carousel-item v-for="(item,index) in 5" :key="index" >
               <img :src="data[index].imgUrl" :alt="index"  ref="images" />
               <canvas class="canvas" ref="can" @mousemove="handleMove(index,$event)" @mouseleave="handleLeave(index)" ></canvas>
@@ -78,12 +86,14 @@ export default {
       color:'#fff',
       fontSize:18,
       danmuObj:{},
-      videoLoaded:false
+      videoLoaded:false,
+      cHeight:document.body.clientHeight>700?560:360 //轮播图高度
     }
   },
   mounted () {
      //设置canvas宽高
     this.$nextTick(()=>{
+
       const {can,images}=this.$refs
         for (let index = 0; index < 5; index++) {
           can[index].width=images[index].clientWidth
@@ -164,38 +174,57 @@ export default {
 .playIn-enter-to{
   width: 100%;
 }
+@media screen and (min-height:700px){
+  .wrapper{
+    height: 600px;
+    .videoBox{
+      height: 560px;
+    }
+  }
+}
+@media screen and (max-height:700px){
+  .wrapper{
+    height: 400px;
+    .videoBox{
+      height: 360px;
+    }
+  }
+}
 .wrapper{
+  padding: 0;
   box-shadow: 0 6px 6px rgba(0, 0, 0, 0.08);
+  margin: 10px 0 20px 0;
+  box-sizing: border-box;
+  background:linear-gradient(to top,black,rgba(61, 23, 117, 0.801),rgba(0,0,0,0));
   .play-wrapper{
     margin: 0 auto;
     display: flex;
+    height: 100%;
     .left-hand{
       flex:1;
-      height: 400px;
-      background:linear-gradient(to top,black,rgba(61, 23, 117, 0.801),rgba(0,0,0,0));
+      height: 100%;
     }
     .mid-player{
       flex:2;
       position: relative;
+      background: white;
       .danmuBox{
         height: 40px;
         display: flex;
         font-size: 10px;
         align-items:center;
-        justify-content: space-evenly;
-        padding: 5px;
-        .title{
-          &:first-of-type{
-            margin-left:-2px;
+        justify-content: space-around;
+        .littleBox{
+          display: flex;
+          align-items: center;
+          .title{
+            margin: 0 5px;
+            width: 2em;
           }
-          &:nth-of-type(2),&:nth-of-type(3){
-            margin-right: -2px;
-          }
-          width: 2em;
         }
       }
       .videoBox{
-        height: 350px;
+        margin: 0;
         &:hover{
           i{
             opacity: 1;
@@ -217,9 +246,8 @@ export default {
       }
     }
     .right-hand{
-      height: 400px;
+      height: 100%;
       flex:1;
-       background:linear-gradient(to top,black,rgba(61, 23, 117, 0.801),rgba(0,0,0,0));
     }
   }
 }

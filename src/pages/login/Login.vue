@@ -165,7 +165,6 @@ export default {
 
 <style scoped lang="less">
   #app{
-    min-width: 1250px;
      #header{
       background-color: rgba(255,165,0,.5);
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);

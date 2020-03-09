@@ -4,9 +4,7 @@
      <Header/>
     </el-header>
     <el-main class="mainContiner">
-      <div class="canvasBox">
         <PlayCore/>
-      </div>
       <div class="footerContainer">
         <div class="left-box">
             <el-divider content-position="left" ><span class="introduction">简介</span> </el-divider>
@@ -188,9 +186,6 @@ export default {
   }
 }
 
-#app{
-  margin: 0;
-  min-width: 1250px;
   #header{
     background-color: rgba(61, 23, 117, 0.5);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
@@ -305,12 +300,6 @@ export default {
         }
       }
     }
-    .canvasBox{
-      height: 400px;
-      margin: 10px 0 20px 0; 
-    }
   }
-}
-        
 </style>
  

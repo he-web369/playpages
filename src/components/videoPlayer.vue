@@ -35,7 +35,7 @@ export default {
         this.$refs.video.volume=this.volume
         const timer=setTimeout(() => {
             this.$refs.videoCan.width=this.$refs.video.clientWidth
-            this.$refs.videoCan.height=300
+            this.$refs.videoCan.height=this.$refs.video.clientHeight*0.8
             this.danmuMethods= initRenderDanmu(this.$refs.videoCan,this.$refs.video)
             clearTimeout(timer)
         }, 1500)

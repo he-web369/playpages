@@ -4,7 +4,7 @@
     <div class="editor">
         <textarea 
         class="inputArea" 
-        :cols="comment?60:80" 
+        :cols="comment?60:70" 
         rows="4" 
         v-model="textInput"
         placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
