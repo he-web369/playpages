@@ -1,7 +1,7 @@
 <template>
   <div  class="wrapper" >
-    <transition name="playIn">
-      <div class="play-wrapper" v-if="isPlay">
+    <transition-group name="playIn">
+      <div class="play-wrapper" v-if="isPlay" key="playW">
         <div class="left-hand" ref="leftHand" >
           <canvas ref="leftCan"></canvas>
         </div>
@@ -52,16 +52,16 @@
           <canvas ref="rightCan"></canvas>
         </div>
       </div>
-      <el-carousel :interval="4000" type="card" v-show="!isPlay" :height="`${cHeight}px`">
-            <el-carousel-item v-for="(item,index) in 5" :key="index" >
-              <img :src="data[index].imgUrl" :alt="index"  ref="images" />
-              <canvas class="canvas" ref="can" @mousemove="handleMove(index,$event)" @mouseleave="handleLeave(index)" ></canvas>
-              <el-tooltip effect="light" content="点击播放" placement="top">
-                <i class="el-icon-video-play playArrow" @click="isPlay=true"></i>
-              </el-tooltip>
-            </el-carousel-item>
-      </el-carousel>
-    </transition> 
+        <el-carousel :interval="4000" type="card" v-if="!isPlay" :height="`${cHeight}px`" key="caW">
+              <el-carousel-item v-for="(item,index) in 5" :key="index" >
+                <img :src="data[index].imgUrl" :alt="index"  ref="images" />
+                <canvas class="canvas" ref="can" @mousemove="handleMove(index,$event)" @mouseleave="handleLeave(index)" ></canvas>
+                <el-tooltip effect="light" content="点击播放" placement="top">
+                  <i class="el-icon-video-play playArrow" @click="isPlay=true"></i>
+                </el-tooltip>
+              </el-carousel-item>
+        </el-carousel>
+    </transition-group> 
   </div>
 </template>
 
@@ -93,7 +93,6 @@ export default {
   mounted () {
      //设置canvas宽高
     this.$nextTick(()=>{
-
       const {can,images}=this.$refs
         for (let index = 0; index < 5; index++) {
           can[index].width=images[index].clientWidth
@@ -115,10 +114,6 @@ export default {
               }
           }else{
             this.water=[]
-              this.$refs.leftCan.width=this.$refs.leftHand.clientWidth
-              this.$refs.leftCan.height=this.$refs.leftHand.clientHeight
-              this.$refs.rightCan.width=this.$refs.rightHand.clientWidth
-              this.$refs.rightCan.height=this.$refs.rightHand.clientHeight
           }
           clearTimeout(timer)
           }, 1500)
@@ -159,6 +154,10 @@ export default {
     },
     changeLoaded(){
       this.videoLoaded=true
+      this.$refs.leftCan.width=document.body.clientWidth/4
+      this.$refs.leftCan.height=this.$refs.leftHand.clientHeight
+      this.$refs.rightCan.width=document.body.clientWidth/4
+      this.$refs.rightCan.height=this.$refs.rightHand.clientHeight
     }
   }
 }
@@ -167,12 +166,14 @@ export default {
 <style scoped lang="less">
 .playIn-enter{
   width:0;
+  opacity: 0;
 }
 .playIn-enter-active{
-  transition: all 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: all 1.5s  cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .playIn-enter-to{
   width: 100%;
+  opacity: 1;
 }
 @media screen and (min-height:700px){
   .wrapper{
