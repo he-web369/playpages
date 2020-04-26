@@ -42,7 +42,7 @@
                   clearable
                   size="small"
                   style="width:320px"
-                  @change="addDanmu"
+                  @keyup.enter.native="addDanmu"
                 />
                 <el-button size="small" @click="addDanmu" >发送</el-button>
               </div>
